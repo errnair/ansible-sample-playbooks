@@ -9,7 +9,7 @@
     - name: Set the timezone to IST
 
 #     command: ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime 
-#     This command listed above also works and is another alternative
+#     The command listed above also works and is another alternative
 
       file:
         src: /usr/share/zoneinfo/Asia/Kolkata
@@ -20,4 +20,6 @@
 
 #To update the packes using Yum
     - name: Update packages
-      yum: name=* update_cache=yes state=latest
+      yum: name=* 
+           update_cache=yes 
+           state=latest
