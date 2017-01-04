@@ -25,3 +25,10 @@
                   regexp="{{ NEW_SUDO_USER }} ALL"
                   line="{{ NEW_SUDO_USER }} ALL=(ALL) ALL"
                   state=present
+
+#So that password isn't asked for "become_method: sudo" and to avoid using "--ask-become-pass"
+    - name: "Add sudo user with nopasswd privilege"
+      lineinfile: dest=/etc/sudoers
+                  regexp="{{ NEW_SUDO_USER }} ALL"
+                  line="{{ NEW_SUDO_USER }} ALL=(ALL) NOPASSWD:ALL"
+                  state=present
