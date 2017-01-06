@@ -1,0 +1,25 @@
+---
+- hosts: dbservers
+  remote_user: testuser1
+  become: yes
+  become_method: sudo
+
+#To set the local time, create a symlink
+  tasks:
+    - name: Set the timezone to IST
+
+#     command: ln -sf /usr/share/zoneinfo/Asia/Kolkata /etc/localtime 
+#     The command listed above also works and is another alternative
+
+      file:
+        src: /usr/share/zoneinfo/Asia/Kolkata
+        dest: /etc/localtime
+        owner: root
+        group: root
+        state: link
+
+#To update the packes using Yum
+    - name: Update packages
+      yum: name=* 
+           update_cache=yes 
+           state=latest
