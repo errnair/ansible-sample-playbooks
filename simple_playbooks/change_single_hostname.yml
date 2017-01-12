@@ -1,0 +1,27 @@
+---
+- hosts: dbservers
+  remote_user: testuser1
+  become: yes
+  become_method: sudo
+
+  vars: 
+    LOCAL_HOSTNAME: 'db01'
+    LOCAL_DOMAIN_NAME: 'ansibletest.com'
+
+  tasks:
+# Checks and removed the existing occurences of <IP hostname FQDN> from /etc/hosts
+    - name: Remove occurences of the existing IP
+      lineinfile: dest=/etc/hosts
+                  regexp='{{ hostvars[item].ansible_default_ipv4.address }}'
+                  state=absent
+      when: hostvars[item].ansible_default_ipv4.address is defined
+      with_items: "{{ groups['dbservers'] }}"
+
+#  Adds the IP in the format  <IP hostname FQDN> to /etc/hosts
+    - name: Add the IP and hostname to the hosts file
+      lineinfile: dest=/etc/hosts
+                  regexp='.*{{ item }}$'
+                  line="{{ hostvars[item].ansible_default_ipv4.address }} {{ LOCAL_HOSTNAME }} {{ LOCAL_HOSTNAME }}.{{ LOCAL_DOMAIN_NAME }}"
+                  state=present
+      when: hostvars[item].ansible_default_ipv4.address is defined
+      with_items: "{{ groups['dbservers'] }}"
