@@ -1,0 +1,38 @@
+---
+- hosts: webservers
+  remote_user: testuser1
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Update packages
+      yum: name=*
+           update_cache=yes
+           state=latest
+
+    - name: Install Apache
+      yum: name=httpd
+           update_cache=yes
+           state=latest
+
+      notify:
+           - open_apache_port
+           - open_apache_secure_port
+           - start_apache
+
+  handlers:
+    - name: open_apache_port
+      firewalld: port=80/tcp
+                 permanent=true
+                 state=enabled
+                 immediate=yes
+
+    - name: open_apache_secure_port
+      firewalld: port=443/tcp
+                 permanent=true
+                 state=enabled
+                 immediate=true
+
+    - name: start_apache
+      service: name=httpd
+               state=started
