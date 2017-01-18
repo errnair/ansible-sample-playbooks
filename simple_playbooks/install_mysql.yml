@@ -1,0 +1,42 @@
+---
+- hosts: dbservers
+  remote_user: testuser1
+  become: yes
+  become_method: sudo
+
+  tasks:
+    - name: Update packages
+      yum: name=*
+           update_cache=yes
+           state=latest
+
+    - name: Install MySQL
+      yum: name=mariadb-server
+           update_cache=yes
+           state=latest
+
+    - name: Install PHP-MySQL module
+      yum: name=php-mysql
+           update_cache=yes
+           state=latest
+
+    - name: Enable mariadb
+      systemd: name=mariadb
+               state=started
+               enabled=yes
+      
+      notify:
+           - open_mysql_port
+           - restart_mariadb
+
+  handlers:
+    - name: open_mysql_port
+      firewalld: port=3306/tcp
+                 permanent=true
+                 state=enabled
+                 immediate=yes
+
+    - name: restart_mariadb
+      service: name=mariadb
+               state=restarted
+               enabled=yes
