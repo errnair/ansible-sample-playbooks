@@ -15,6 +15,11 @@
            update_cache=yes
            state=latest
 
+    - name: Install Python-MySQL module
+      yum: name=MySQL-python
+           update_cache=yes
+           state=latest
+    
     - name: Install PHP-MySQL module
       yum: name=php-mysql
            update_cache=yes
