@@ -15,10 +15,15 @@
            update_cache=yes
            state=latest
 
+    - name: Enable Apache
+      systemd: name=httpd
+               state=started
+               enabled=yes
+
       notify:
            - open_apache_port
            - open_apache_secure_port
-           - start_apache
+           - restart_apache
 
   handlers:
     - name: open_apache_port
@@ -33,6 +38,6 @@
                  state=enabled
                  immediate=true
 
-    - name: start_apache
+    - name: restart_apache
       service: name=httpd
-               state=started
+               state=restarted
