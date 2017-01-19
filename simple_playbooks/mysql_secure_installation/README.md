@@ -1,7 +1,7 @@
 This simulates `mysql_secure_installation` by performing the following steps:  
- 1. Set a new root password
- 2. Remove test database
- 3. Remove anonymous MySQL user
+ 1. Sets a new root password
+ 2. Removes the test database
+ 3. Removes the default anonymous MySQL user
 
 Pending:
 - Remove anonymous MySQL user that uses \"Host: hostname.tld \"
