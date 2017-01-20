@@ -5,3 +5,4 @@
 **3. change\_single\_hostname.yml** - Change the hostname permanently on a remote server.  
 **4. install\_apache.yml** - Install Apache (httpd) webserver on a remote server.  
 **5. install\_mysql.yml** - Install MariaDB on a remote server.  
+**6. mysql_secure_installation** - To simulate `mysql_secure_installation` on a remote server.  

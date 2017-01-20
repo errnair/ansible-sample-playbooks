@@ -5,11 +5,12 @@
   become_method: sudo
 
   tasks:
+    # First update all existing packages (yum update)
     - name: Update packages
       yum: name=*
            update_cache=yes
            state=latest
-
+    # Install Mariadb and all the necessary packages
     - name: Install MySQL
       yum: name={{ item }}
            update_cache=yes
@@ -21,6 +22,7 @@
         - MySQL-python
         - php-mysql
 
+    # Enable the MySQL service (`systemctl enable mariadb`)
     - name: Enable mariadb
       systemd: name=mariadb
                state=started

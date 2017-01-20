@@ -5,21 +5,24 @@
   become_method: sudo
 
   tasks:
+    # First update all existing packages (yum update)
     - name: Update packages
       yum: name=*
            update_cache=yes
            state=latest
 
+    # Next, install Apache (httpd)
     - name: Install Apache
       yum: name=httpd
            update_cache=yes
            state=latest
 
+    # Once Apache is installed, enable the service (`systemctl enable httpd`)
     - name: Enable Apache
       systemd: name=httpd
                state=started
                enabled=yes
-
+      
       notify:
            - open_apache_port
            - open_apache_secure_port
