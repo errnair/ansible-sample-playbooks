@@ -64,6 +64,7 @@
       notify:
         - restart_mariadb
 
+  # Handlers to restart services
   handlers:
     - name: restart_mariadb
       service: name=mariadb

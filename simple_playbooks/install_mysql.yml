@@ -32,6 +32,7 @@
            - open_mysql_port
            - restart_mariadb
 
+  # Handlers to open ports and restart services
   handlers:
     - name: open_mysql_port
       firewalld: port=3306/tcp

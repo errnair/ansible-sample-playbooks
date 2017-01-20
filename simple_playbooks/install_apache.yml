@@ -28,6 +28,7 @@
            - open_apache_secure_port
            - restart_apache
 
+  # Handlers to open ports and restart services
   handlers:
     - name: open_apache_port
       firewalld: port=80/tcp
