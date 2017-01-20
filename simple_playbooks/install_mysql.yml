@@ -11,19 +11,15 @@
            state=latest
 
     - name: Install MySQL
-      yum: name=mariadb-server
+      yum: name={{ item }}
            update_cache=yes
            state=latest
-
-    - name: Install Python-MySQL module
-      yum: name=MySQL-python
-           update_cache=yes
-           state=latest
-    
-    - name: Install PHP-MySQL module
-      yum: name=php-mysql
-           update_cache=yes
-           state=latest
+      with_items:
+        - mariadb
+        - mariadb-server
+        - mariadb-devel
+        - MySQL-python
+        - php-mysql
 
     - name: Enable mariadb
       systemd: name=mariadb
