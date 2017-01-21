@@ -1,0 +1,63 @@
+---
+- hosts: lampservers
+  remote_user: testuser1
+  become: yes
+  become_method: sudo
+
+  tasks:
+    # Back up the SSH configuration file
+    - name: Check if the SSH config file exists
+      stat: path=/etc/ssh/sshd_config
+      register: sshd_stat
+
+    - name: Copy sshd_config to sshd_config.orig
+      copy: remote_src=True
+            src=/etc/ssh/sshd_config
+            dest=/etc/ssh/sshd_config.orig
+      when: sshd_stat.stat.exists 
+    
+    # Change SSH port to another random port - Example: Port 2201
+    - name: Changing SSH port
+      lineinfile: dest=/etc/ssh/sshd_config
+                  regexp='^#Port'
+                  line='Port 2201'
+                  state=present
+
+    # Disable root login
+    - name: change PermitRootLogin to 'no'
+      lineinfile: dest=/etc/ssh/sshd_config
+                  regexp='^#PermitRootLogin'
+                  line='PermitRootLogin no'
+                  state=present
+
+    # Allow our Ansible user (testuser1) to login
+    - name: Add AllowUsers
+      lineinfile: dest=/etc/ssh/sshd_config
+                  line='AllowUsers testuser1'
+                  state=present
+
+    # Allow sshd to listen on tcp port of our choice
+    - name: Add 2201 to SELinux policies for SSH
+      seport:
+        ports: 2201
+        proto: tcp
+        setype: ssh_port_t
+        state: present
+
+      notify:
+        - open_ssh_port
+        - restart_sshd
+    
+  # Handlers to restart services
+  handlers:
+
+    - name: open_ssh_port
+      firewalld: port=2201/tcp
+                 permanent=true
+                 state=enabled
+                 immediate=yes
+
+    - name: restart_sshd
+      service: name=sshd
+               state=restarted
+               enabled=yes
