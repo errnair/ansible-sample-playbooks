@@ -1,0 +1,47 @@
+---
+- hosts: boxprepper
+  remote_user: root
+
+  vars_files:
+    - var.yml
+
+  tasks:
+    - name: Create a secondary, non-root user for all future tasks
+      user: name={{ nonroot_user }}
+            password={{ nonroot_pass }}
+            shell='/bin/bash'
+            ssh_key_file='.ssh/id_rsa'
+
+    - name: Add auth key for passwordless authentication
+      authorized_key: user={{ nonroot_user }}
+                      key="{{ lookup('file', '/root/.ssh/id_rsa.pub') }}"
+
+    # Check if 'sudo' exists on the remote server, else install it.
+    # This is because Debian primarily doesn't come with 'sudo' installed
+    - name: Check if 'sudo' exists on CentOS/RedHat
+      yum: name=sudo
+           update_cache=yes
+           state=latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Check if 'sudo' exists on Debian/Ubuntu
+      apt: name=sudo
+           update_cache=yes
+           state=latest
+      when: ansible_os_family == "Debian"
+
+    - name: Check and confirm if the remote server have a 'wheel' group
+      group: name=wheel
+             state=present
+
+    - name: Allow passwordless sudo for the 'wheel' group
+      lineinfile: dest=/etc/sudoers
+                  state=present
+                  regexp='^%wheel'
+                  line="%wheel ALL=(ALL) NOPASSWD:ALL"
+                  validate='visudo -cf %s'
+
+    - name: Add the new user to the 'wheel' group
+      user: name={{ nonroot_user }}
+            groups=wheel
+            append=yes
