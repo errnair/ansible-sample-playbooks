@@ -1,0 +1,12 @@
+---
+- hosts: wpserver
+  remote_user: ansibleuser
+  become: yes
+  become_method: sudo
+
+  roles:
+    - prerequisites
+    - apache
+    - mariadb
+    - php
+    - wordpress
