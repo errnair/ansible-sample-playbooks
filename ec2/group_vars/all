@@ -1,6 +1,0 @@
-key_name: ansible1
-aws_region: eu-central-1
-vpc_id: <your-vpc-id>
-ami_id: ami-0e258161
-instance_type: t2.micro
-my_local_cidr_ip: <your-WAN-IP>/32
