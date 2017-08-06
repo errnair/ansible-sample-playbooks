@@ -2,7 +2,9 @@
 
 #### Phase - II
 
-- **./wordpress-lamp\_v1** - LAMP installation + Wordpress installation
+ 
+- **./provision\_ec2-v1/** - Quickly Provision an AWS EC2 instance using Ansible.
+- **./wordpress-lamp\_v1** - LAMP installation + Wordpress installation.
   
   
 #### Phase - I
