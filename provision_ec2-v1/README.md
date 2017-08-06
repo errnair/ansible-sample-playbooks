@@ -26,4 +26,7 @@ PLAY RECAP *********************************************************************
 localhost                  : ok=2    changed=1    unreachable=0    failed=0
 ```
 
-####
+#### Further Reading
+
+- [Provisioning AWS EC2 Instances with Ansible](https://muchbits.com/aws-ansible-provisioning.html)
+- [Provisioning AWS EC2 Instances with Ansible - Common Errors](https://muchbits.com/aws-ansible-errors1.html)
