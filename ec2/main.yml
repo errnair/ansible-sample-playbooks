@@ -1,0 +1,8 @@
+---
+- hosts: local
+  connection: local
+  gather_facts: no   
+  roles:
+    - ec2_sg
+    #- ec2_key
+    - ec2_instance
