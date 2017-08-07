@@ -1,0 +1,25 @@
+---
+- name: Create a security group
+  local_action: 
+    module: ec2_group
+    name: "{{ security_group }}"
+    description: AWS Security Group for Webservers
+    region: "{{ aws_region }}"
+    vpc_id: "{{ vpc_id }}"
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: "{{ my_local_cidr_ip }}"
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: "{{ my_local_cidr_ip }}"
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: "{{ my_local_cidr_ip }}"
+    rules_egress:
+      - proto: all
+        cidr_ip: 0.0.0.0/0
+  register: webserver_firewall
