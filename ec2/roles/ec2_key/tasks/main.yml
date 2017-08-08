@@ -1,0 +1,11 @@
+---
+- name: Create an EC2 key-pair with an existing local SSH key.
+  local_action:
+    module: ec2_key
+    name: "{{ key_name }}"
+    region: "{{ aws_region }}"
+    key_material: "{{ item }}"
+  with_file: ~/.ssh/id_rsa.pub
+  register: ec2_keypair
+
+- debug: var=ec2_keypair
