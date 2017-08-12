@@ -5,7 +5,7 @@
     name: "{{ key_name }}"
     region: "{{ aws_region }}"
     key_material: "{{ item }}"
-  with_file: ~/.ssh/id_rsa.pub
+  with_file: ~/.ssh/devuser.pub
   register: ec2_keypair
 
 - debug: var=ec2_keypair
