@@ -6,3 +6,10 @@
     - ec2_sg
     - ec2_key
     - ec2_instance
+
+- hosts: webserver
+  remote_user: ec2-user
+  become: yes
+  become_method: sudo
+  roles:
+    - ec2_authkeys
