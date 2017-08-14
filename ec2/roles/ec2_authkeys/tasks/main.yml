@@ -1,17 +1,4 @@
 ---
-#- name: Make sure user is on server and generate ssh key for it
-#  user: name=ec2-user
-#        generate_ssh_key=yes
-#        ssh_key_bits=2048
-#        ssh_key_file=".ssh/id_rsa"
-#
-#- name: Add public keys for developers
-#  authorized_key: user=ec2-user
-#                  state=present
-#                  key={{ lookup('file', item) }}
-#  with_fileglob:
-#  - ~/.ssh/*.pub
-
 - name: update SSH keys
   authorized_key:
     user: ec2-user
