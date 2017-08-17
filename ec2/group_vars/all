@@ -1,8 +1,8 @@
-key_name: ansible100
 aws_region: eu-central-1
-vpc_id: <my-vpd-id>
+vpc_id: <your-vpc-id>
 ami_id: ami-0e258161
 instance_type: t2.micro
-my_local_cidr_ip: <my-wan-ip>/32
+my_local_cidr_ip: <your-wan-ip>/32
+key_name: ansible100
 security_group: ansible-aws-webserver
 count: 1
