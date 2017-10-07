@@ -1,13 +1,13 @@
 ## Sample Ansible Playbooks
 
-#### Phase - II
+#### Part - II
 
  
 - **./provision\_ec2-v1/** - Quickly Provision an AWS EC2 instance using Ansible.
 - **./wordpress-lamp\_v1** - LAMP installation + Wordpress installation.
   
   
-#### Phase - I
+#### Part - I
 
 - **./simple_playbooks/newuser.yml** - Used to create a new user on a remote server and enable passwordless authentication.  
 - **./simple_playbooks/time\_and\_upgrade.yml** - Used to set the time on the remote server, then upgrade the packages on the remote server (||| to `yum update`).  
