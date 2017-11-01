@@ -1,0 +1,42 @@
+---
+    - name: Update yum - RedHat
+      yum: 
+        name: "*"
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Update apt - Debian
+      apt: 
+        update_cache: yes
+        upgrade: yes
+        state: latest
+      when: ansible_os_family == "Debian"
+    
+    - name: Install firewalld - Debian
+      apt: 
+        name: firewalld
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "Debian"
+
+    - name: Install firewalld - RedHat
+      yum: 
+        name: firewalld
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Install systemd - Debian
+      apt: 
+        name: systemd
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "Debian"
+
+    - name: Install systemd - RedHat
+      yum: 
+        name: systemd
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "RedHat"
