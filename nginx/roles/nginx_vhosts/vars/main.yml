@@ -1,0 +1,5 @@
+---
+# You'll probably want to exlcude this or encrypt this with Ansible Vault and the like.
+webuser_name: "testuser"
+webuser_pass: "test123"
+webuser_site: "testsite.com"

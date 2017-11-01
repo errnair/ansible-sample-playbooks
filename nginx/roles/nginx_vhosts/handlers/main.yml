@@ -1,0 +1,11 @@
+---
+    - name: restart_nginx
+      service: 
+        name: nginx
+        state: restarted
+
+    - name: restart_sshd
+      service: 
+        name: sshd
+        state: restarted
+        enabled: yes

@@ -1,0 +1,45 @@
+---
+    - name: Create a new user
+      user: 
+        name: "{{ webuser_name }}"
+        password: "{{ webuser_pass }}"
+        shell: "/bin/bash"
+        ssh_key_file: "~/.ssh/id_rsa"
+
+    - name: Add authentication key for passwordless login
+      authorized_key:
+        user: "{{ webuser_name }}"
+        key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+
+    - name: Add the new user to the 'sudo' group - Debian
+      user:
+        name: "{{ webuser_name }}"
+        groups: sudo
+        append: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Add the new user to the 'wheel' group - Redhat
+      user:
+        name: "{{ webuser_name }}"
+        groups: wheel
+        append: yes
+      when: ansible_os_family == "RedHat"
+
+    - name: Create web-root dirs
+      file:
+        path: "/home/{{ webuser_name }}/{{ item }}"
+        owner: "{{ webuser_name }}"
+        group: "{{ webuser_name }}"
+        state: directory
+        mode: 0755
+      with_items:
+        - "public_html"
+        - "logs"
+
+    - name: Change home dir path
+      file:
+        path: "/home/{{ webuser_name }}"
+        owner: "{{ webuser_name }}"
+        group: "{{ webuser_name }}"
+        state: directory
+        mode: 0711 
