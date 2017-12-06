@@ -1,11 +1,11 @@
 ---
-- hosts: webservers
+- hosts: all
   remote_user: root
 
   roles:
     - newuser
 
-- hosts: webservers
+- hosts: all
   remote_user: ansibleuser
   become: yes
   become_method: sudo
@@ -13,5 +13,3 @@
   roles:
     - securessh
     - prerequisites
-    - nginx
-    - nginx_vhosts
