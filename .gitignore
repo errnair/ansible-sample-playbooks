@@ -2,3 +2,4 @@
 *.swp
 *.log
 *.boto
+.vaultpass.txt
