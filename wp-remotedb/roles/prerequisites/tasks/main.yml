@@ -1,0 +1,40 @@
+---
+    - name: Update yum - RedHat
+      yum: 
+        name: "*"
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Update apt - Debian
+      apt: 
+        update_cache: yes
+        upgrade: yes
+        state: latest
+      when: ansible_os_family == "Debian"
+    
+    - name: Install prerequisites - Debian
+      apt: 
+        name: "{{ item }}"
+        update_cache: yes
+        state: latest
+      with_items:
+        - firewalld
+        - systemd
+        - curl
+      when: ansible_os_family == "Debian"
+
+    - name: Install prerequisites - RedHat
+      yum: 
+        name: "{{ item }}"
+        update_cache: yes
+        state: latest
+      with_items:
+        - firewalld
+        - systemd
+        - curl
+      when: ansible_os_family == "RedHat"
+
+    - name: Disable selinux
+      command: "setenforce 0"
+      when: ansible_os_family == "RedHat"
