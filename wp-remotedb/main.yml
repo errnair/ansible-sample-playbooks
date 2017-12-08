@@ -1,15 +1,24 @@
 ---
-- hosts: all
-  remote_user: root
+#- hosts: all
+#  remote_user: root
+#
+#  roles:
+#    - newuser
 
-  roles:
-    - newuser
+#- hosts: all
+#  remote_user: ansibleuser
+#  become: yes
+#  become_method: sudo
+#
+#  roles:
+#    - securessh
+#    - prerequisites
 
-- hosts: all
+- hosts: webservers
   remote_user: ansibleuser
   become: yes
   become_method: sudo
 
   roles:
-    - securessh
-    - prerequisites
+    - nginx
+#    - nginx_vhosts
