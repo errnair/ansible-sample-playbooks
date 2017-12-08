@@ -1,0 +1,40 @@
+---
+    - name: Add Nginx Official repo - RedHat
+      template:
+        src: nginx.repo.j2
+        dest: "/etc/yum.repos.d/nginx.repo"
+      when: ansible_os_family == "RedHat"
+       
+    - name: Add Nginx Official repo - Debian
+      template:
+        src: nginx.list.j2
+        dest: "/etc/apt/sources.list.d/nginx.list"
+      when: ansible_os_family == "Debian"
+
+    - name: Install Nginx on the server - RedHat
+      yum: 
+        name: nginx
+        update_cache: yes
+        state: latest
+      when: ansible_os_family == "RedHat"
+
+    - name: Install Nginx on the server - Debian
+      apt: 
+        name: nginx
+        update_cache: yes
+        state: latest
+        allow_unauthenticated: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Enable the Nginx service
+      systemd: 
+          name: nginx
+          state: started
+          enabled: yes
+      changed_when: true    
+      notify:
+        - open_http_service
+        - open_https_service
+        - open_http_port
+        - open_https_port
+        - restart_nginx
