@@ -1,0 +1,5 @@
+[nginx]
+name=Official Nginx Repository
+baseurl=http://nginx.org/packages/{{"rhel" if ansible_distribution == "RedHat" else "centos"}}/$releasever/$basearch/
+gpgcheck=0
+enabled=1
