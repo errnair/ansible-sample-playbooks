@@ -20,5 +20,6 @@
   become_method: sudo
 
   roles:
-    - nginx
+#    - nginx
 #    - nginx_vhosts
+    - mariadb
