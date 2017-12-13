@@ -1,9 +1,9 @@
 ---
-    # Install Mariadb and the mysql-related packages
-    - name: Install MariaDB and it's dependencies
-      yum: name={{ item }}
-           update_cache=yes
-           state=latest
+    - name: Install MariaDB and it's dependencies - RedHat
+      yum: 
+        name: "{{ item }}"
+        update_cache: yes
+        state: latest
       with_items:
         - mariadb
         - mariadb-server
@@ -11,13 +11,26 @@
         - MySQL-python
         - php-mysql
       when: ansible_os_family == "RedHat"
-
-     # Enable the MariaDB service
-    - name: Enable MariaDB
-      systemd: name=mariadb
-               state=started
-               enabled=yes
-
       notify:
         - open_mariadb_port
+
+    - name: Install MariaDB and it's dependencies - Debian
+      apt: 
+        name: "{{ item }}"
+        update_cache: yes
+        upgrade: yes
+        state: latest
+      with_items:
+       # Apt Packages
+      when: ansible_os_family == "Debian"
+      notify:
+        - open_mariadb_port
+
+    - name: Enable MariaDB
+      systemd: 
+        name: mariadb
+        state: started
+        enabled: yes
+      changed_when: true
+      notify:
         - restart_mariadb
