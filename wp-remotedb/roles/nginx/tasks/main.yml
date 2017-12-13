@@ -11,6 +11,17 @@
         dest: "/etc/apt/sources.list.d/nginx.list"
       when: ansible_os_family == "Debian"
 
+    - name: get Debian signing key
+      get_url:
+        url: "http://nginx.org/keys/nginx_signing.key"
+        dest: "."
+        mode: 0644
+      when: ansible_os_family == "Debian"
+
+    - name: Install Nginx Debian key
+      command: "sudo apt-key add nginx_signing.key"
+      when: ansible_os_family == "Debian"
+
     - name: Install Nginx on the server - RedHat
       yum: 
         name: nginx
