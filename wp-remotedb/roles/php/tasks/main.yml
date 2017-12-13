@@ -1,0 +1,41 @@
+---
+    - name: Install PHP and other required modules - RedHat
+      yum: 
+        name: "{{ item }}"
+        update_cache: yes
+        state: latest
+      with_items:
+        - php
+        - php-cli
+        - php-common
+        - php-devel
+        - php-mbstring
+        - php-pdo
+        - php-pear
+        - php-mysql
+        - php-gd
+        - php-fpm
+        - php-xml
+      when: 
+        ansible_os_family == "RedHat"
+
+    - name: Install PHP and other required modules - Debian
+      apt: 
+        name: "{{ item }}"
+        update_cache: yes
+        state: latest
+      with_items:
+          # Apt packages
+      when: 
+        ansible_os_family == "RedHat"
+    
+    - name: Copying the test index file
+      copy: 
+        src: files/index.php
+        dest: "/home/{{ webuser_name }}/public_html/index.php"
+        owner: "{{ webuser_name }}"
+        group: "{{ webuser_name }}"
+        mode: 0644
+      changed_when: true
+      notify:
+        - restart_nginx
