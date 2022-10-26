@@ -18,4 +18,5 @@
 - **./simple_playbooks/change\_single\_hostname.yml** - Change the hostname permanently on a remote server.  
 - **./simple_playbooks/install\_apache.yml** - Install Apache (httpd) webserver on a remote server.  
 - **./simple_playbooks/install\_mysql.yml** - Install MariaDB on a remote server.  
-- **./simple_playbooks/mysql_secure_installation** - To simulate `mysql_secure_installation` on a remote server.  
+- **./simple_playbooks/mysql_secure_installation** - To simulate `mysql_secure_installation` on a remote server. 
+- **./simple_playbooks/ansible-update-ubuntu.yml** - Upgrade all packages to the latest version (Debian based).
